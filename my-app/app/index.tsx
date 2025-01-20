@@ -10,7 +10,8 @@ import Search from './components/Search';
 import Orders from './components/Orders';
 import Profile from './components/Profile';
 import CustomHeader from './components/CustomHeader';
-import CustomHeaderCart from './components/CustomHeaderCart';
+import CustomHeaderOrders from './components/CustomHeaderOrders';
+import CustomHeaderProf from './components/CustomHeaderProf';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,65 +81,70 @@ const App: React.FC = () => {
       component={Orders}
       options={({ navigation }) => ({
         tabBarIcon: ({ color, size }) => <Icon name="document-text-outline" color={color} size={size} />,
-        header: () => <CustomHeaderCart title="Orders" navigation={navigation} />,
+        header: () => <CustomHeaderOrders title="Orders" navigation={navigation} />,
       })}
       />
       <Tab.Screen
       name="Profiles"
       component={Profile}
-      options={{
+      options={({ navigation }) => ({
         tabBarIcon: ({ color, size }) => <Icon name="person-outline" color={color} size={size} />,
-        headerShown: false,
-      }}
+        header: () => <CustomHeaderProf title="Orders" navigation={navigation} />,
+      })}
       />
      
     </Tab.Navigator>
   );
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Stack.Navigator>
-        {isLogged ? (
+
+      <SafeAreaView style={styles.safeArea}>
+        <Stack.Navigator>
+          {isLogged ? (
+            <Stack.Screen
+              name="Main"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+          ) : (
+            <Stack.Screen
+              name="LogSign"
+              options={{ headerShown: false }}
+            >
+              {props => <LogSign {...props} setIsLogged={setIsLogged} />}
+            </Stack.Screen>
+          )}
           <Stack.Screen
-            name="Main"
-            component={MainTabs}
-            options={{ headerShown: false }}
+            name="Order"
+            component={Orders}
+            options={({ navigation }) => ({
+              header: () => <CustomHeaderOrders title="Home" navigation={navigation} />,
+            })}
           />
-        ) : (
           <Stack.Screen
-            name="LogSign"
-            options={{ headerShown: false }}
-          >
-            {props => <LogSign {...props} setIsLogged={setIsLogged} />}
-          </Stack.Screen>
-        )}
-        <Stack.Screen
-          name="Order"
-          component={Orders}
-          options={({ navigation }) => ({
-            header: () => <CustomHeaderCart title="Home" navigation={navigation} />,
-          })}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={MainPage}
-          options={({ navigation }) => ({
-            header: () => <CustomHeader title="Home" navigation={navigation} />,
-          })}
-        />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-          options={({ navigation }) => ({
-            header: () => <CustomHeader title="Search" navigation={navigation} />,
-          })}
-        />
-      </Stack.Navigator>
+            name="Profile"
+            component={Profile}
+            options={({ navigation}) => ({
+              header: () => <CustomHeaderProf title="Profile" navigation={navigation} />,
+            })} 
+          />
+          <Stack.Screen
+            name="Home"
+            component={MainPage}
+            options={({ navigation }) => ({
+              header: () => <CustomHeader title="Home" navigation={navigation} />,
+            })}
+          />
+          <Stack.Screen
+            name="Search"
+            component={Search}
+            options={({ navigation }) => ({
+              header: () => <CustomHeader title="Search" navigation={navigation} />,
+            })}
+          />
+        </Stack.Navigator>
     </SafeAreaView>
+  
+    
   );
 };
 

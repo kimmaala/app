@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginBottom: 20,
       elevation: 3,
+      shadowColor: '#000', // iOS shadow
+      shadowOffset: { width: 0, height: 2 }, // iOS shadow
+      shadowOpacity: 0.25, // iOS shadow
+      shadowRadius: 3.84, // iOS shadow
     },
     buttonText: {
       color: '#fff',
@@ -53,8 +57,7 @@ const styles = StyleSheet.create({
     toggleText: {
       color: '#FFC42E',
       fontSize: 16,
-      marginTop: 10,
-      textDecorationLine: 'underline',
+      
     },
   
   
